@@ -1,0 +1,23 @@
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ChantierService } from './chantier.service';
+import { Chantier } from './chantier.entity';
+
+@Controller('chantier')
+export class ChantierController {
+  constructor(private readonly chantierService: ChantierService) {}
+
+  @Get()
+  getChantiers() {
+    return this.chantierService.findAll();
+  }
+
+  @Get('commandes')
+  getChantiersWithCommandes() {
+    return this.chantierService.findAllWithCommandes();
+  }
+
+  @Post()
+  createChantier(@Body() body: Chantier) {
+    return this.chantierService.create(body);
+  }
+}
