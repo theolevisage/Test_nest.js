@@ -1,0 +1,27 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Chantier } from './chantier.entity';
+import { Repository } from 'typeorm';
+import { Commande } from '../commande/commande.entity';
+
+@Injectable()
+export class ChantierService {
+  constructor(
+    @InjectRepository(Chantier)
+    private readonly chantierRepository: Repository<Chantier>,
+  ) {}
+
+  create(chantier: Chantier): Promise<Chantier> {
+    return this.chantierRepository.save(chantier);
+  }
+
+  findAll(): Promise<Chantier[]> {
+    return this.chantierRepository.find();
+  }
+
+  findAllWithCommandes(): Promise<Chantier[]> {
+    return this.chantierRepository.find({
+      relations: ['commandes'],
+    });
+  }
+}
